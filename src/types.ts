@@ -5,8 +5,13 @@ export interface IMessage {
 
 export interface IMessageFull extends IMessage {
   id: string;
+  likes?: number;
 }
 
 export interface ApiMessage {
-  [key: string]: IMessage;
+  [key: string]: IMessage: {
+    author: string;
+    message: string;
+    likes?: number;
+  }
 }
