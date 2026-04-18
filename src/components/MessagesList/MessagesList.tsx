@@ -38,7 +38,34 @@ export const MessagesList = () => {
       clearInterval(interval);
     }
 
-  },[])
+  },[setMessages])
+
+  const likeMessage = async (message: IMessageFull) => {
+    try {
+      const updatedMessage = {
+        author: message.author,
+        message: message.message,
+        likes: (message.likes || 0) + 1,
+      };
+
+      await axiosApi.put(`/messages/${message.id}.json`, updatedMessage);
+
+      const updatedMessages = messages.map(item => {
+        if (item.id === message.id) {
+          return {
+            ...item,
+            likes: updatedMessage.likes,
+          };
+        }
+
+        return item;
+      });
+
+      setMessages(updatedMessages);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -47,7 +74,12 @@ export const MessagesList = () => {
           <div key={message.id} className={styles.messageCard}>
             <h5>Author:{message.author}</h5>
             <p>{message.message}</p>
-
+            <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <Button variant="outlined" onClick={() => void likeMessage(message)}>
+                Like
+              </Button>
+              <span>{message.likes || 0}</span>
+            </div>
           </div>
         ))
       }
