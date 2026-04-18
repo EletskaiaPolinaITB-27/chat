@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, type ChangeEvent, type FormEvent} from 'react';
 import {Button, TextField} from '@mui/material';
 import {axiosApi} from '../../axiosApi.ts';
 import type {IMessage, IMessageFull} from '../../types.ts';
@@ -13,16 +13,16 @@ export const ChatForm = () => {
   const [form, setForm] = useState<IMessage>(initialState);
   const {messages, setMessages} = useChatStore();
 
-  const changeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
 
     setForm(prev => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
-  const submitForm = async (e: React.FormEvent) => {
+  const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.author.trim() || !form.message.trim()) {
@@ -33,7 +33,7 @@ export const ChatForm = () => {
       const messageData: IMessage = {
         author: form.author,
         message: form.message,
-      }
+      };
 
       const response = await axiosApi.post<{name: string}>('/messages.json', messageData);
 
@@ -47,7 +47,7 @@ export const ChatForm = () => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <form onSubmit={submitForm} style={{display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '20px'}}>

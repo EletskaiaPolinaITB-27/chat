@@ -9,7 +9,7 @@ export interface IMessageFull extends IMessage {
 }
 
 export interface ApiMessage {
-  [key: string]: IMessage: {
+  [key: string]: {
     author: string;
     message: string;
     likes?: number;

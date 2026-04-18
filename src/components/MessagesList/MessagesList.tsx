@@ -3,6 +3,7 @@ import type {ApiMessage, IMessageFull} from '../../types.ts';
 import {axiosApi} from '../../axiosApi.ts';
 import styles from './styles.module.css';
 import {useChatStore} from '../../chatStore.ts';
+import {Button} from '@mui/material';
 
 export const MessagesList = () => {
   const {messages, setMessages} = useChatStore();
